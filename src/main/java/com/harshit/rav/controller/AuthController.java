@@ -3,12 +3,14 @@ package com.harshit.rav.controller;
 
 import com.harshit.rav.Util.JwtUtil;
 import com.harshit.rav.dto.AuthDTO;
+import com.harshit.rav.dto.AuthResponseDTO;
 import com.harshit.rav.entity.Account;
 import com.harshit.rav.repository.AccountRepository;
 import com.harshit.rav.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +37,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO authRequest){
+    public ResponseEntity<?> login(@RequestBody AuthDTO authRequest) throws Exception {
 
-        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        try {
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        }catch (BadCredentialsException e) {
+            throw new Exception("Incorrect Email or password", e);
+        }
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authRequest.getEmail());
         String token = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new AuthResponseDTO(token));
 
     }
 
