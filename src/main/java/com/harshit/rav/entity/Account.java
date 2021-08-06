@@ -11,6 +11,15 @@ import java.util.UUID;
 @Entity
 @Table(name = "account")
 public class Account {
+    public Account(String name, String email, String password, List<Schedule> schedule) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.schedule = schedule;
+    }
+
+    public Account() {
+    }
 
     @Id
     @GeneratedValue

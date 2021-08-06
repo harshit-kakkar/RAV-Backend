@@ -32,10 +32,6 @@ public class AuthController {
     JwtUtil jwtUtil;
 
 
-//    @GetMapping("/")
-//    public String welcome(){
-//        return "Welcome to RAV";
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthDTO authRequest) throws Exception {
