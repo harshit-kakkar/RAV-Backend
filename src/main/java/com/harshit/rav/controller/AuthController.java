@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +32,10 @@ public class AuthController {
     JwtUtil jwtUtil;
 
 
-    @GetMapping("/")
-    public String welcome(){
-        return "Welcome to RAV";
-    }
+//    @GetMapping("/")
+//    public String welcome(){
+//        return "Welcome to RAV";
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthDTO authRequest) throws Exception {
