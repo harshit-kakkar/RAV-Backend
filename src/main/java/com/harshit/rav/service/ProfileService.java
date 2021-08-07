@@ -3,17 +3,17 @@ package com.harshit.rav.service;
 import com.harshit.rav.dto.ProfileResponseDTO;
 import com.harshit.rav.dto.SignupDTO;
 import com.harshit.rav.entity.Account;
+import com.harshit.rav.entity.Schedule;
 import com.harshit.rav.exception.EmailAlreadyExistsException;
 import com.harshit.rav.exception.NotFoundException;
 import com.harshit.rav.exception.NullFieldsException;
 import com.harshit.rav.repository.AccountRepository;
+import com.harshit.rav.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -22,11 +22,18 @@ public class ProfileService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
     public String signup(SignupDTO newAccount) throws NullFieldsException, Exception {
         if(newAccount.getEmail() != null && newAccount.getPassword() != null && newAccount.getName()!=null) {
+            List<Schedule> schedulesList = newAccount.getSchedule();
+            if(newAccount.getSchedule().size()>0){
+                schedulesList = saveSchedule(newAccount.getSchedule());
+            }
             Account account = new Account(
                     newAccount.getName(), newAccount.getEmail(), newAccount.getPassword(),
-                    newAccount.getSchedule()
+                    schedulesList
             );
             try {
                 accountRepository.save(account);
@@ -38,6 +45,15 @@ public class ProfileService {
         else{
             throw new NullFieldsException("Required fields cannot be empty");
         }
+    }
+
+    private List<Schedule> saveSchedule(List<Schedule> scheduleList){
+        List<Schedule> schedulesSavedList = new ArrayList<>();
+        for(Schedule schedule : scheduleList){
+            Schedule scheduleSaved = scheduleRepository.save(schedule);
+            schedulesSavedList.add(scheduleSaved);
+        }
+        return schedulesSavedList;
     }
 
     public ProfileResponseDTO myProfile(String email){
