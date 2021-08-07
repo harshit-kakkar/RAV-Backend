@@ -21,7 +21,6 @@ public class ProfileController {
     public ResponseEntity<String> signup(@RequestBody SignupDTO newAccount){
 
         String accountCreationRes = profileService.signup(newAccount);
-
         return ResponseEntity
                 .ok(accountCreationRes);
     }
@@ -33,9 +32,8 @@ public class ProfileController {
     }
 
     @GetMapping("/user")
-    public String userProfile(@RequestParam("id") UUID id){
-        System.out.println(id);
-        return "got id ";
+    public ProfileResponseDTO userProfile(@RequestParam("id") UUID id){
+        return profileService.getUser(id);
     }
 
 }

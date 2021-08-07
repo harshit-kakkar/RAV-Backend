@@ -7,6 +7,8 @@ import com.harshit.rav.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 
 @Service
 public class ProfileService {
@@ -28,6 +30,12 @@ public class ProfileService {
         return new ProfileResponseDTO(
                 account.getId(), account.getEmail(), account.getName(), account.getSchedule()
         );
+    }
 
+    public ProfileResponseDTO getUser(UUID id){
+        Account account = accountRepository.getById(id);
+        return new ProfileResponseDTO(
+                account.getId(), account.getEmail(), account.getName(), account.getSchedule()
+        );
     }
 }
