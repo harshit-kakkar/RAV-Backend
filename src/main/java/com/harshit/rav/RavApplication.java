@@ -1,5 +1,6 @@
 package com.harshit.rav;
 
+import io.github.cdimascio.dotenv.DotEnvException;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvEntry;
 import org.springframework.boot.SpringApplication;
@@ -16,20 +17,25 @@ import java.util.stream.Collectors;
 public class RavApplication {
 
 	public static void main(String[] args) {
-		Map<String, Object> env = Dotenv.load()
-				.entries()
-				.stream()
-				.collect(
-						Collectors.toMap(DotenvEntry::getKey, DotenvEntry::getValue));
+		try {
+			Map<String, Object> env = Dotenv.load()
+					.entries()
+					.stream()
+					.collect(
+							Collectors.toMap(DotenvEntry::getKey, DotenvEntry::getValue));
 
-		new SpringApplicationBuilder(RavApplication.class)
-				.environment(new StandardEnvironment() {
-					@Override
-					protected void customizePropertySources(MutablePropertySources propertySources) {
-						super.customizePropertySources(propertySources);
-						propertySources.addLast(new MapPropertySource("dotenvProperties", env));
-					}
-				}).run(args);
+			new SpringApplicationBuilder(RavApplication.class)
+					.environment(new StandardEnvironment() {
+						@Override
+						protected void customizePropertySources(MutablePropertySources propertySources) {
+							super.customizePropertySources(propertySources);
+							propertySources.addLast(new MapPropertySource("dotenvProperties", env));
+						}
+					}).run(args);
+		}catch (Exception e){
+			System.out.println("Inside catch block when starting application");
+			SpringApplication.run(RavApplication.class, args);
+		}
 
 	}
 
