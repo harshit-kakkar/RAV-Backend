@@ -8,11 +8,12 @@ import java.util.List;
 @Data
 public class SignupDTO {
 
-    public SignupDTO(String email, String name, String password, List<Schedule> schedule) {
+    public SignupDTO(String email, String name, String password, List<Schedule> schedule, String domain) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.schedule = schedule;
+        this.domain = domain;
     }
 
     public SignupDTO() {
@@ -22,4 +23,5 @@ public class SignupDTO {
     private String name;
     private String password;
     List<Schedule> schedule;
+    private String domain;
 }

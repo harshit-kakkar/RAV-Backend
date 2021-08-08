@@ -11,11 +11,12 @@ import java.util.UUID;
 @Entity
 @Table(name = "account")
 public class Account {
-    public Account(String name, String email, String password, List<Schedule> schedule) {
+    public Account(String name, String email, String password, List<Schedule> schedule, String domain) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.schedule = schedule;
+        this.domain = domain;
     }
 
     public Account() {
@@ -36,4 +37,6 @@ public class Account {
     @OneToMany()
     @JoinColumn(name = "account_id")
     private List<Schedule> schedule;
+
+    private String domain;
 }
