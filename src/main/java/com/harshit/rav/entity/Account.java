@@ -11,12 +11,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "account")
 public class Account {
-    public Account(String name, String email, String password, List<Schedule> schedule, String domain) {
+    public Account(String name, String email, String password, List<Schedule> schedule, String domain, Boolean isMentor) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.schedule = schedule;
         this.domain = domain;
+        this.isMentor = isMentor;
     }
 
     public Account() {
@@ -39,4 +40,5 @@ public class Account {
     private List<Schedule> schedule;
 
     private String domain;
+    private Boolean isMentor;
 }

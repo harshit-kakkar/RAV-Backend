@@ -8,12 +8,13 @@ import java.util.List;
 @Data
 public class SignupDTO {
 
-    public SignupDTO(String email, String name, String password, List<Schedule> schedule, String domain) {
+    public SignupDTO(String email, String name, String password, List<Schedule> schedule, String domain, Boolean isMentor) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.schedule = schedule;
         this.domain = domain;
+        this.isMentor = isMentor;
     }
 
     public SignupDTO() {
@@ -24,4 +25,5 @@ public class SignupDTO {
     private String password;
     List<Schedule> schedule;
     private String domain;
+    private Boolean isMentor = false;
 }

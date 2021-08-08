@@ -33,7 +33,7 @@ public class ProfileService {
             }
             Account account = new Account(
                     newAccount.getName(), newAccount.getEmail(), newAccount.getPassword(),
-                    schedulesList, newAccount.getDomain()
+                    schedulesList, newAccount.getDomain(), newAccount.getIsMentor()
             );
             try {
                 accountRepository.save(account);
