@@ -59,7 +59,7 @@ public class ProfileService {
     public ProfileResponseDTO myProfile(String email){
         Account account = accountRepository.findByEmail(email);
         return new ProfileResponseDTO(
-                account.getId(), account.getEmail(), account.getName(), account.getSchedule(), account.getDomain()
+                account.getId(), account.getEmail(), account.getName(), account.getSchedule(), account.getDomain(), account.getIsMentor()
         );
     }
 
@@ -68,7 +68,7 @@ public class ProfileService {
         if (accountRepo.isPresent()) {
             Account account = accountRepo.get();
             return new ProfileResponseDTO(
-                    account.getId(), account.getEmail(), account.getName(), account.getSchedule(), account.getDomain()
+                    account.getId(), account.getEmail(), account.getName(), account.getSchedule(), account.getDomain(), account.getIsMentor()
             );
         }else{
             throw new NotFoundException("Profile with this ID is not present");

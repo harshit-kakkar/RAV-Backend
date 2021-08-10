@@ -9,12 +9,13 @@ import java.util.UUID;
 
 @Data
 public class ProfileResponseDTO {
-    public ProfileResponseDTO(UUID id, String email, String name, List<Schedule> schedule, String domain) {
+    public ProfileResponseDTO(UUID id, String email, String name, List<Schedule> schedule, String domain, Boolean isMentor) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.schedule = schedule;
         this.domain = domain;
+        this.isMentor = isMentor;
     }
 
     public ProfileResponseDTO() {
@@ -25,4 +26,5 @@ public class ProfileResponseDTO {
     private String name;
     private List<Schedule> schedule;
     private String domain;
+    private Boolean isMentor;
 }
