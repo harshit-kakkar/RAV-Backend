@@ -41,4 +41,12 @@ public class Account {
 
     private String domain;
     private Boolean isMentor;
+
+    @OneToMany
+    @JoinColumn(name = "mentor_id")
+    private List<Appointment> mentor;
+
+    @OneToMany
+    @JoinColumn(name = "mentee_id")
+    private List<Appointment> mentee;
 }
