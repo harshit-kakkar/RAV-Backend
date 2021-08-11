@@ -11,7 +11,14 @@ import java.util.UUID;
 @Table(name = "appointment")
 public class Appointment {
 
+    public Appointment(LocalDate appointmentDate, Integer appointmentStartTime, String location) {
+        this.appointmentDate = appointmentDate;
+        this.appointmentStartTime = appointmentStartTime;
+        this.location = location;
+    }
 
+    public Appointment() {
+    }
 
     @Id
     @GeneratedValue
@@ -20,7 +27,7 @@ public class Appointment {
 
     private LocalDate appointmentDate;
 
-    private Integer appointmentStartDate;
+    private Integer appointmentStartTime;
 
     private String location;
 }

@@ -2,6 +2,7 @@ package com.harshit.rav.controller;
 
 
 import com.harshit.rav.dto.AppointmentRequestDTO;
+import com.harshit.rav.exception.NotFoundException;
 import com.harshit.rav.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping("/appointment")
-    public ResponseEntity<String> setAppointment(@RequestBody AppointmentRequestDTO appointmentRequest, Principal principal){
+    public ResponseEntity<String> setAppointment(@RequestBody AppointmentRequestDTO appointmentRequest, Principal principal) throws NotFoundException {
         String email = principal.getName();
         return new ResponseEntity<>(appointmentService.setAppointment(appointmentRequest, email), HttpStatus.CREATED);
     }
