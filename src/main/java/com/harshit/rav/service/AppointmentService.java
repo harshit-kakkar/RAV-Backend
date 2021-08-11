@@ -77,6 +77,7 @@ public class AppointmentService {
 
     private Boolean isMentorAvailable(Account mentor, AppointmentRequestDTO appointmentRequest){
         // Check if there is an appointment at the particular date & time and return true if mentor is available at the requested time.
-        return true;
+        return accountRepository.findByMentorAppointmentDateAndAppointmentTime(mentor.getId(),
+                appointmentRequest.getDate(), appointmentRequest.getStartTime()) == null;
     }
 }
