@@ -33,7 +33,7 @@ public class RavApplication {
 						}
 					}).run(args);
 		}catch (Exception e){
-			System.out.println("Inside catch block when starting application");
+			System.out.println("Starting application without dot-env");
 			SpringApplication.run(RavApplication.class, args);
 		}
 

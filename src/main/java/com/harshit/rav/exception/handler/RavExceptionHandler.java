@@ -1,5 +1,6 @@
 package com.harshit.rav.exception.handler;
 
+import com.harshit.rav.exception.AppointmentValidityException;
 import com.harshit.rav.exception.EmailAlreadyExistsException;
 import com.harshit.rav.exception.NotFoundException;
 import com.harshit.rav.exception.NullFieldsException;
@@ -23,6 +24,11 @@ public class RavExceptionHandler {
 
     @ExceptionHandler(value = {EmailAlreadyExistsException.class})
     public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {AppointmentValidityException.class})
+    public ResponseEntity<String> handleAppointmentValidityException(AppointmentValidityException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
