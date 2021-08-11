@@ -35,8 +35,8 @@ public class AppointmentService {
             Account mentor = mentorOpt.get();
 
             // validations
-            if(!validateAppointmentDateTime(mentor, appointmentRequest)){
-                throw new AppointmentValidityException("Invalid appointment details");
+            if(!validateAppointmentDateTime(mentor, appointmentRequest) || mentor.getIsMentor()==null || !mentor.getIsMentor()){
+                throw new AppointmentValidityException("Invalid appointment request");
             }
             // Create an appointment entry in DB.
             Appointment appointment = new Appointment(appointmentRequest.getDate(), appointmentRequest.getStartTime(), appointmentRequest.getLocation());
@@ -67,12 +67,16 @@ public class AppointmentService {
         List<Schedule> mentorScheduleList = mentor.getSchedule();
         String appointmentDay = appointmentDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.US).toUpperCase();
         for(Schedule schedule : mentorScheduleList){
-            if(schedule.getDay().equals(appointmentDay)){
-                if(schedule.getStartTimeHour()<=appointmentTime && schedule.getEndTimeHour()>appointmentTime){
-                    return true;
-                }
+            if(schedule.getDay().equals(appointmentDay) && schedule.getStartTimeHour()<=appointmentTime &&
+                    schedule.getEndTimeHour()>appointmentTime && isMentorAvailable(mentor, appointmentRequest)){
+                return true;
             }
         }
         return false;
+    }
+
+    private Boolean isMentorAvailable(Account mentor, AppointmentRequestDTO appointmentRequest){
+        // Check if there is an appointment at the particular date & time and return true if mentor is available at the requested time.
+        return true;
     }
 }
