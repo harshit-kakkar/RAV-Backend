@@ -1,6 +1,7 @@
 package com.harshit.rav.service;
 
 import com.harshit.rav.dto.AppointmentRequestDTO;
+import com.harshit.rav.dto.AppointmentResDTO;
 import com.harshit.rav.entity.Account;
 import com.harshit.rav.entity.Appointment;
 import com.harshit.rav.entity.Schedule;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -69,12 +71,25 @@ public class AppointmentService {
                 appointmentRequest.getDate(), appointmentRequest.getStartTime()) == null;
     }
 
-    public List<Appointment> getAppointmentsList(String email, Boolean asMentor){
+    public List<AppointmentResDTO> getAppointmentsList(String email, Boolean asMentor){
         Account account = accountRepository.findByEmail(email);
         if(asMentor){
-            return appointmentRepository.findByMentor(account);
+            List<Appointment> appointments = appointmentRepository.findByMentor(account);
+            List<AppointmentResDTO> appointmentResDTOList = new ArrayList<>();
+            for(Appointment appointment : appointments){
+                appointmentResDTOList.add(new AppointmentResDTO(appointment.getId(),
+                        appointment.getAppointmentStartTime(), appointment.getAppointmentDate(),
+                        appointment.getLocation(), appointment.getMentee().getName()));
+            }
+            return appointmentResDTOList;
         }
-        return(appointmentRepository.findByMentee(account));
-
+        List<Appointment> appointments = appointmentRepository.findByMentee(account);
+        List<AppointmentResDTO> appointmentResDTOList = new ArrayList<>();
+        for(Appointment appointment : appointments){
+            appointmentResDTOList.add(new AppointmentResDTO(appointment.getId(),
+                    appointment.getAppointmentStartTime(), appointment.getAppointmentDate(),
+                    appointment.getLocation(), appointment.getMentor().getName()));
+        }
+        return appointmentResDTOList;
     }
 }

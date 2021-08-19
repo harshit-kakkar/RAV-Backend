@@ -2,7 +2,7 @@ package com.harshit.rav.controller;
 
 
 import com.harshit.rav.dto.AppointmentRequestDTO;
-import com.harshit.rav.entity.Appointment;
+import com.harshit.rav.dto.AppointmentResDTO;
 import com.harshit.rav.exception.AppointmentValidityException;
 import com.harshit.rav.exception.NotFoundException;
 import com.harshit.rav.service.AppointmentService;
@@ -27,7 +27,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointment")
-    public List<Appointment> getAppointmentsList(@RequestParam("asMentor") Boolean asMentor, Principal principal){
+    public List<AppointmentResDTO> getAppointmentsList(@RequestParam("asMentor") Boolean asMentor, Principal principal){
         String email = principal.getName();
         return appointmentService.getAppointmentsList(email, asMentor);
 
