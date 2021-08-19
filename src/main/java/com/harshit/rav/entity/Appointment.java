@@ -11,10 +11,12 @@ import java.util.UUID;
 @Table(name = "appointment")
 public class Appointment {
 
-    public Appointment(LocalDate appointmentDate, Integer appointmentStartTime, String location) {
+    public Appointment(LocalDate appointmentDate, Integer appointmentStartTime, String location, Account mentee, Account mentor) {
         this.appointmentDate = appointmentDate;
         this.appointmentStartTime = appointmentStartTime;
         this.location = location;
+        this.mentee = mentee;
+        this.mentor = mentor;
     }
 
     public Appointment() {
@@ -30,4 +32,12 @@ public class Appointment {
     private Integer appointmentStartTime;
 
     private String location;
+
+    @JoinColumn(name = "mentor_account_id")
+    @ManyToOne
+    private Account mentor;
+
+    @JoinColumn(name = "mentee_account_id")
+    @ManyToOne
+    private Account mentee;
 }

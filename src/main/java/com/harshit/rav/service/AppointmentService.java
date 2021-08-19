@@ -39,20 +39,8 @@ public class AppointmentService {
                 throw new AppointmentValidityException("Invalid appointment request");
             }
             // Create an appointment entry in DB.
-            Appointment appointment = new Appointment(appointmentRequest.getDate(), appointmentRequest.getStartTime(), appointmentRequest.getLocation());
+            Appointment appointment = new Appointment(appointmentRequest.getDate(), appointmentRequest.getStartTime(), appointmentRequest.getLocation(), mentee, mentor);
             appointmentRepository.save(appointment);
-
-            // add to mentor account.
-            List<Appointment> appointmentsUpdateMentor = mentor.getMentor();
-            appointmentsUpdateMentor.add(appointment);
-            mentor.setMentor(appointmentsUpdateMentor);
-            accountRepository.save(mentor);
-
-            // Add mentee
-            List<Appointment> appointmentsUpdateMentee = mentee.getMentee();
-            appointmentsUpdateMentee.add(appointment);
-            mentee.setMentee(appointmentsUpdateMentee);
-            accountRepository.save(mentee);
 
             return "Appointment set successfully !";
         }
@@ -79,5 +67,14 @@ public class AppointmentService {
         // Check if there is an appointment at the particular date & time and return true if mentor is available at the requested time.
         return accountRepository.findByMentorAppointmentDateAndAppointmentTime(mentor.getId(),
                 appointmentRequest.getDate(), appointmentRequest.getStartTime()) == null;
+    }
+
+    public List<Appointment> getAppointmentsList(String email, Boolean asMentor){
+        Account account = accountRepository.findByEmail(email);
+        if(asMentor){
+            return appointmentRepository.findByMentor(account);
+        }
+        return(appointmentRepository.findByMentee(account));
+
     }
 }
